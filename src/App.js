@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { FaBars, FaTimes } from 'react-icons/fa';
+import Sidebar from './components/Sidebar';
+import Dashboard from './components/Dashboard';
+import GlobalStyles from './styles/GlobalStyles';
 
-function App() {
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const ToggleButton = styled.button`
+  display: none;
+  @media (max-width: 1200px) {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    z-index: 1000;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+`;
+
+const App = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyles />
+      <AppContainer>
+        <ToggleButton onClick={() => setSidebarOpen(!sidebarOpen)}>
+          {sidebarOpen ? <FaTimes /> : <FaBars />}
+        </ToggleButton>
+        <Sidebar open={sidebarOpen} />
+        <Dashboard />
+      </AppContainer>
+    </>
   );
-}
+};
 
 export default App;
